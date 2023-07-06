@@ -2,14 +2,21 @@ require_relative 'person'
 require_relative 'book'
 
 class Rental
-  attr_accessor :date, :book, :person
+  attr_accessor :date
+  attr_reader :book, :person
 
-  def initialize(book, person, date)
+  def initialize(date)
     @date = date
-    @book = book
+  end
+
+  def add_person(person)
     @person = person
-    book.add_rental(self)
-    person.add_rental(self)
+    person.add_rental(self) unless person.rentals.include?(self)
+  end
+
+  def add_book(book)
+    @book = book
+    book.add_rental(self) unless book.rentals.include?(self)
   end
 end
 
@@ -22,22 +29,29 @@ person1 = Person.new(20, 'Person 1')
 person2 = Person.new(25, 'Person 2')
 
 # Create rentals linking the books and persons
-Rental.new(book1, person1, '2023-07-06')
-Rental.new(book1, person2, '2023-07-07')
-Rental.new(book2, person1, '2023-07-08')
+rental = Rental.new('2023-07-06')
+rental1 = Rental.new('2023-07-07')
+rental2 = Rental.new('2023-07-08')
+
+rental.add_book(book1)
+rental1.add_book(book1)
+rental2.add_book(book2)
+rental.add_person(person1)
+rental1.add_person(person2)
+rental2.add_person(person1)
 
 # Accessing rentals through books
 puts 'Rentals for Book 1:'
-book1.rentals.each do |rental|
-  puts "Rental Date: #{rental.date}"
-  puts "Rented by: #{rental.person.name}"
+book1.rentals.each do |rentals|
+  puts "Rental Date: #{rentals.date}"
+  puts "Rented by: #{rentals.person.name}"
 end
 
 puts '--------------------'
 
 # Accessing rentals through persons
 puts 'Rentals for Person 1:'
-person1.rentals.each do |rental|
-  puts "Rental Date: #{rental.date}"
-  puts "Book Title: #{rental.book.title}"
+person1.rentals.each do |rentals|
+  puts "Rental Date: #{rentals.date}"
+  puts "Book Title: #{rentals.book.title}"
 end
