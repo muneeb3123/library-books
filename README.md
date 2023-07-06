@@ -105,7 +105,6 @@ Not available at the moment.
 
 ## 👥 Authors <a name="authors"></a>
 
-> Mention all of the collaborators of this project.
 
 👤 **Muneeb UR Rehman**
 
@@ -118,8 +117,6 @@ Not available at the moment.
 <!-- FUTURE FEATURES -->
 
 ## 🔭 Future Features <a name="future-features"></a>
-
-> Describe 1 - 3 features you will add to the project.
 
 - [ ] **[Fine Calculation: Develop a functionality to calculate and manage fines for late book returns.]**
 - [ ] **[Integrate a recommendation system that suggests relevant books based on the user's borrowing history and interests.]**
@@ -149,7 +146,6 @@ Feel free to check the [issues page](../../issues/).
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-> Give credit to everyone who inspired your codebase.
 
 I would like to thank to everyone who watch my code and like it.
 
