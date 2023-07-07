@@ -34,8 +34,8 @@ student2.add_classroom(classroom2)
 
 puts "#{student.name} : #{student.classroom.label}"
 puts "#{student1.name} : #{student1.classroom.label}"
-puts "#{student2.name} : #{student2.classroom.label}"
 
+puts "#{student3.name} : #{student3.classroom.label}"
 print "Students in #{classroom.label}: "
 classroom.students.each do |student_in_classroom|
   puts student_in_classroom.name
