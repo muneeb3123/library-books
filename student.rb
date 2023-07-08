@@ -21,32 +21,32 @@ class Student < Person
   end
 end
 
-classroom = Classroom.new('Physics')
-classroom1 = Classroom.new('Chemistry')
-classroom2 = Classroom.new('Biology')
-student = Student.new('Amir', 28)
-student1 = Student.new('Muneeb', 21)
-student2 = Student.new('Talha', 22)
+# classroom = Classroom.new('Physics')
+# classroom1 = Classroom.new('Chemistry')
+# classroom2 = Classroom.new('Biology')
+# student = Student.new('Amir', 28)
+# student1 = Student.new('Muneeb', 21)
+# student2 = Student.new('Talha', 22)
 
-student.add_classroom(classroom)
-student1.add_classroom(classroom1)
-student2.add_classroom(classroom2)
+# student.add_classroom(classroom)
+# student1.add_classroom(classroom1)
+# student2.add_classroom(classroom2)
 
-puts "#{student.name} : #{student.classroom.label}"
-puts "#{student1.name} : #{student1.classroom.label}"
+# puts "#{student.name} : #{student.classroom.label}"
+# puts "#{student1.name} : #{student1.classroom.label}"
 
-puts "#{student3.name} : #{student3.classroom.label}"
-print "Students in #{classroom.label}: "
-classroom.students.each do |student_in_classroom|
-  puts student_in_classroom.name
-end
+# puts "#{student2.name} : #{student2.classroom.label}"
+# print "Students in #{classroom.label}: "
+# classroom.students.each do |student_in_classroom|
+#   puts student_in_classroom.name
+# end
 
-print "Students in #{classroom1.label}: "
-classroom1.students.each do |student_in_classroom1|
-  puts student_in_classroom1.name
-end
+# print "Students in #{classroom1.label}: "
+# classroom1.students.each do |student_in_classroom1|
+#   puts student_in_classroom1.name
+# end
 
-print "Students in #{classroom2.label}: "
-classroom2.students.each do |student_in_classroom2|
-  puts student_in_classroom2.name
-end
+# print "Students in #{classroom2.label}: "
+# classroom2.students.each do |student_in_classroom2|
+#   puts student_in_classroom2.name
+# end
