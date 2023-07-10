@@ -1,11 +1,13 @@
 require_relative 'student'
 require_relative 'teacher'
 require_relative 'rental'
+require_relative 'user_interface'
 
 class App
   attr_accessor :books, :persons, :rentals
 
   def initialize
+    @user_interface = UserInterface.new
     @books = []
     @persons = []
     @rentals = []
@@ -39,11 +41,11 @@ class App
 
   def create_student
     print 'Age:  '
-    age = gets.chomp
+    age = @user_interface.get_user_input
     print 'Name:  '
-    name = gets.chomp
+    name = @user_interface.get_user_input
     print 'Has parent permission? [Y/N]:  '
-    permission = gets.chomp.downcase
+    permission = @user_interface.get_user_input.downcase
     parent_permission = (permission == 'y')
     student = Student.new(name, age, parent_permission: parent_permission)
     @persons << student
@@ -54,11 +56,11 @@ class App
 
   def create_teacher
     print 'Specialization:  '
-    specialization = gets.chomp
+    specialization = @user_interface.get_user_input
     print 'Name:  '
-    name = gets.chomp
+    name = @user_interface.get_user_input
     print 'Age:  '
-    age = gets.chomp
+    age = @user_interface.get_user_input
     teacher = Teacher.new(specialization, name, age)
     @persons << teacher
     puts '----------------------------------------------------------------------'
@@ -68,7 +70,7 @@ class App
 
   def create_person
     print 'Do you want to create a student (1) or a teacher (2)? [input the number]:  '
-    input = gets.chomp
+    input = @user_interface.get_user_input
     if input == '1'
       create_student
     elsif input == '2'
@@ -82,9 +84,9 @@ class App
 
   def create_book
     print 'Title:  '
-    title = gets.chomp
+    title = @user_interface.get_user_input
     print 'Author:  '
-    author = gets.chomp
+    author = @user_interface.get_user_input
     book = Book.new(title, author)
     @books << book
     puts '----------------------------------------------------------------------'
@@ -95,7 +97,7 @@ class App
   def create_rental
     puts 'Select a book from the following list by number:  '
     all_books
-    input_book = gets.chomp.to_i
+    input_book = @user_interface.get_user_input.to_i
     if input_book.negative? || input_book >= @books.length
       puts_invalid_book_selection
       return
@@ -103,7 +105,7 @@ class App
 
     puts 'Select a person from the following list by number (not id):  '
     all_people
-    input_person = gets.chomp.to_i
+    input_person = @user_interface.get_user_input.to_i
     if input_person.negative? || input_person >= @persons.length
       puts_invalid_person_selection
       return
@@ -114,7 +116,7 @@ class App
 
   def all_rentals
     puts 'ID of a person:'
-    id = gets.chomp.to_i
+    id = @user_interface.get_user_input.to_i
     found_rentals = false
 
     @rentals.each do |rental|
@@ -150,7 +152,7 @@ class App
 
   def create_rental_with_book_and_person(input_book, input_person)
     print 'Date in format YYYY-MM-DD:  '
-    date = gets.chomp
+    date = @user_interface.get_user_input
     if /^\d{4}-\d{2}-\d{2}$/.match(date)
       selected_book = @books[input_book]
       selected_person = @persons[input_person]
