@@ -13,27 +13,32 @@ class Main
 
     loop do
       @user_interface.display_options
+      option = @user_interface.user_input
 
-      option = @user_interface.get_user_input
+      process_option(option)
 
-      case option
-      when '1'
-        @app.all_books
-      when '2'
-        @app.all_people
-      when '3'
-        @app.create_person
-      when '4'
-        @app.create_book
-      when '5'
-        @app.create_rental
-      when '6'
-        @app.all_rentals
-      when '7'
-        break
-      else
-        @user_interface.display_invalid_option
-      end
+      break if option == '7'
+    end
+  end
+
+  private
+
+  def process_option(option)
+    case option
+    when '1'
+      @app.all_books
+    when '2'
+      @app.all_people
+    when '3'
+      @app.create_person
+    when '4'
+      @app.create_book
+    when '5'
+      @app.create_rental
+    when '6'
+      @app.all_rentals
+    else
+      @user_interface.display_invalid_option
     end
   end
 end
