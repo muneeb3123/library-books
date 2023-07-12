@@ -9,8 +9,7 @@ describe Student do
     expect(student).to have_attributes(name: 'muneeb', age: 21, parent_permission: false)
   end
 
-  it 'should be child of parent and initialize it' do
-    student = Student.new('muneeb', 21, parent_permission: false)
+  it 'should inherit from the Person class' do
     expect(student).to be_a(Person)
   end
 
