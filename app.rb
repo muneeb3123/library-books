@@ -1,16 +1,20 @@
 require_relative 'student'
+require_relative 'preserved_data'
 require_relative 'teacher'
 require_relative 'rental'
 require_relative 'user_interface'
+require 'json'
 
 class App
+  include PreservedData
+
   attr_accessor :books, :persons, :rentals
 
   def initialize
     @user_interface = UserInterface.new
-    @books = []
-    @persons = []
-    @rentals = []
+    @persons = load_person_data_from_file
+    @books = load_books_data_from_file
+    @rentals = load_rental_data_from_file
   end
 
   def all_books
@@ -49,6 +53,7 @@ class App
     parent_permission = (permission == 'y')
     student = Student.new(name, age, parent_permission: parent_permission)
     @persons << student
+    preserved_person_data
     puts '----------------------------------------------------------------------'
     puts 'Person created successfully'
     puts '------------------------------------------------------------------------'
@@ -63,6 +68,7 @@ class App
     age = @user_interface.user_input
     teacher = Teacher.new(specialization, name, age)
     @persons << teacher
+    preserved_person_data
     puts '----------------------------------------------------------------------'
     puts 'Person created successfully'
     puts '------------------------------------------------------------------------'
@@ -89,6 +95,7 @@ class App
     author = @user_interface.user_input
     book = Book.new(title, author)
     @books << book
+    preserved_book_data
     puts '----------------------------------------------------------------------'
     puts 'Book created successfully'
     puts '------------------------------------------------------------------------'
@@ -106,6 +113,7 @@ class App
     puts 'Select a person from the following list by number (not id):  '
     all_people
     input_person = @user_interface.user_input.to_i
+
     if input_person.negative? || input_person >= @persons.length
       puts_invalid_person_selection
       return
@@ -117,22 +125,19 @@ class App
   def all_rentals
     puts 'ID of a person:'
     id = @user_interface.user_input.to_i
-    found_rentals = false
 
-    @rentals.each do |rental|
-      next unless rental.person.id == id
+    matching_rentals = @rentals.select { |rental| rental.person.id == id }
 
-      puts 'Rentals:'
-      puts "Date: #{rental.date}, Book: '#{rental.book.title}' by #{rental.book.author}"
-      found_rentals = true
-    end
-
-    if found_rentals
-      puts '----------------------------------------------------------------------'
-    else
+    if matching_rentals.empty?
       puts '----------------------------------------------------------------------'
       puts 'Rental not found'
       puts '------------------------------------------------------------------------'
+    else
+      puts 'Rentals:'
+      matching_rentals.each do |rental|
+        puts "Date: #{rental.date}, Book: '#{rental.book.title}' by #{rental.book.author}"
+      end
+      puts '----------------------------------------------------------------------'
     end
   end
 
@@ -154,12 +159,13 @@ class App
     print 'Date in format YYYY-MM-DD:  '
     date = @user_interface.user_input
     if /^\d{4}-\d{2}-\d{2}$/.match(date)
+      rental = Rental.new(date)
       selected_book = @books[input_book]
       selected_person = @persons[input_person]
-      rental = Rental.new(date)
       rental.add_book(selected_book)
       rental.add_person(selected_person)
       @rentals << rental
+      preserved_rental_data
       puts '----------------------------------------------------------------------'
       puts 'Rental created successfully'
       puts '------------------------------------------------------------------------'
