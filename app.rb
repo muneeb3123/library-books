@@ -14,7 +14,8 @@ class App
     @user_interface = UserInterface.new
     @persons = load_person_data_from_file
     @books = load_books_data_from_file
-    @rentals = load_rental_data_from_file
+    @rentals = []
+    load_rental_data_from_file
   end
 
   def all_books
