@@ -1,6 +1,6 @@
-module PreservedData
-  require 'json'
+require 'json'
 
+module PreservedData
   def preserved_book_data
     json_array = @books.map do |book|
       { title: book.title, author: book.author }
@@ -24,7 +24,32 @@ module PreservedData
       @books = []
     end
   end
-def preserved_rental_data
+
+  def preserved_person_data
+    json_array = @persons.map do |person|
+      { id: person.id, name: person.name, age: person.age }
+    end
+    json = JSON.pretty_generate(json_array)
+    File.write('person.json', json)
+  end
+
+  def load_person_data_from_file
+    if File.exist?('person.json')
+      json_data = File.read('person.json')
+      if json_data.empty?
+        @persons = []
+      else
+        new_persons = JSON.parse(json_data).map do |person_data|
+          Person.new(person_data['age'], person_data['name'], id: person_data['id'])
+        end
+        @persons = new_persons
+      end
+    else
+      @persons = []
+    end
+  end
+
+  def preserved_rental_data
     json_array = @rentals.map do |rental|
       { date: rental.date, title: rental.book.title, author: rental.book.author, id: rental.person.id }
     end
